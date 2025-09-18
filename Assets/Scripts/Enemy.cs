@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
 
     public void Death()
     {
+        Destroy(gameObject);
         Debug.Log("EL enemigo murio");
     }
 

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
 
@@ -18,8 +19,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _bulletOffset = 0.5f;
 
-
-
     private void Update()
     {
         if (_nexAttacKTime > 0)
@@ -27,18 +26,23 @@ public class Player : MonoBehaviour
             _nexAttacKTime -= Time.deltaTime;
              
         }
-        if (Input.GetKeyDown("z") && _nexAttacKTime <= 0)
+    }
+
+    public void OnAttack()
+    {
+        if (_nexAttacKTime <= 0)
         {
             Attack();
             _nexAttacKTime = _attackCooldown;
         }
-        if (Input.GetButtonDown("Fire1") && _nexAttacKTime <= 0)
-        {
-            GameObject bullet = BulletPool.Instance.RequestBullet();
-            bullet.transform.position = transform.position + Vector3.up * _bulletOffset;
-            _nexAttacKTime = _attackCooldown;
+        Debug.Log("Input Attack");
+    }
 
-        }
+    public void OnRangedAttack()
+    {
+        Debug.Log("Input Attack2");
+        RangedAttack();
+
     }
     private void Attack()
     {
@@ -54,10 +58,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void RangedAttack()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_attackController.position, _hitRadius);
+        if (_nexAttacKTime <= 0)
+        {
+            GameObject bullet = BulletPool.Instance.RequestBullet();
+            bullet.transform.position = transform.position + Vector3.up * _bulletOffset;
+            _nexAttacKTime = _attackCooldown;
+
+        }
     }
 
     public void TakeDamage(float damage)
@@ -73,6 +82,15 @@ public class Player : MonoBehaviour
     public void Death()
     {
         Debug.Log("haz muerto");
+        
     }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_attackController.position, _hitRadius);
+    }
+
+
 
 }
