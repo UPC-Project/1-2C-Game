@@ -7,12 +7,11 @@ public class BulletPool : MonoBehaviour
 {
 
     [SerializeField] private GameObject _bulletPrefab;
-    private int _poolSize = 2; 
     [SerializeField] private List<GameObject> _bulletList;
+    private int _poolSize = 2; 
 
     private static BulletPool instance;
     public static BulletPool Instance { get { return instance; } }
-
 
 
     private void Awake()
@@ -35,7 +34,7 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject bullet = Instantiate(_bulletPrefab); //(_bulletList[i] _bulletPrefab)
+            GameObject bullet = Instantiate(_bulletPrefab);
             bullet.SetActive(false);
             _bulletList.Add(bullet);
             bullet.transform.parent = transform;

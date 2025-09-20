@@ -5,7 +5,6 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private float _bulletSpeed = 5f;
     [SerializeField] private float _damage = 5f;
-
     [SerializeField] private Rigidbody2D _rb;
 
     [SerializeField] private float _lifeTime = 0.5f; 
@@ -30,8 +29,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            // What will happen if the enemy is not ranged? fix
             collision.gameObject.GetComponent<Enemy>().TakeDamage(_damage);
-            //Llamar al meto "Recibir daño" correspondiente]
         }
         gameObject.SetActive(false);
 

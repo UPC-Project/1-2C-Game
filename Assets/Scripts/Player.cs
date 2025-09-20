@@ -1,21 +1,14 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 
-public class Player : MonoBehaviour
+public class Player : HealthSystem
 {
-
-    //[SerializeField] private GameObject _shotPrefab;
     [SerializeField] private Transform _attackController;
-
-    public float health;
-
     [SerializeField] private float  _hitRadius;
     [SerializeField] private float _attackDamage;
 
     [SerializeField] private float _nexAttacKTime;
     [SerializeField] private float _attackCooldown;
-
 
     [SerializeField] private float _bulletOffset = 0.5f;
 
@@ -24,7 +17,6 @@ public class Player : MonoBehaviour
         if (_nexAttacKTime > 0)
         {
             _nexAttacKTime -= Time.deltaTime;
-             
         }
     }
 
@@ -35,25 +27,22 @@ public class Player : MonoBehaviour
             Attack();
             _nexAttacKTime = _attackCooldown;
         }
-        Debug.Log("Input Attack");
     }
 
     public void OnRangedAttack()
     {
-        Debug.Log("Input Attack2");
         RangedAttack();
 
     }
     private void Attack()
     {
-        //animator.SetTrigger("");     Animacison correspondiente 
         Collider2D[] objects = Physics2D.OverlapCircleAll(_attackController.position, _hitRadius);
         foreach (Collider2D collider in objects)
         {
             if (collider.CompareTag("Enemy"))
             {
+                // What will happen if the enemy is not ranged? fix
                 collider.transform.GetComponent<Enemy>().TakeDamage(_attackDamage);
-                //Llamar al meto "Recibir daño" correspondiente
             }
         }
     }
@@ -69,20 +58,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public override void Death()
     {
-        health -= damage;
-
-        if (health <= 0)
-        {
-            Death();
-        }
-    }
-
-    public void Death()
-    {
-        Debug.Log("haz muerto");
-        
+        Debug.Log("You died");  
     }
     
     private void OnDrawGizmos()
@@ -90,7 +68,4 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_attackController.position, _hitRadius);
     }
-
-
-
 }
