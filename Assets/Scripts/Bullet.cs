@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private Rigidbody2D _rb;
 
-    [SerializeField] private float _lifeTime = 0.5f; 
+    [SerializeField] private float _lifeTime = 0.2f; 
     private float _lifeTimer;
 
 
@@ -32,8 +32,12 @@ public class Bullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<Enemy>().TakeDamage(_damage);
             //Llamar al meto "Recibir daño" correspondiente]
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
+        if (collision.gameObject.CompareTag("Environment"))
+        {
+            gameObject.SetActive(false);
+        }
 
     }
 
