@@ -822,7 +822,7 @@ GameObject:
   - component: {fileID: 687283872}
   - component: {fileID: 687283873}
   m_Layer: 0
-  m_Name: Player Bullet Pool
+  m_Name: Bullet Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1142,12 +1142,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   health: 50
-  _firingPoint: {fileID: 277044492}
-  _hitRadius: 2
   _attackDamage: 5
-  _nextAttackTime: 0
-  _attackCooldown: 0.1
-  _bulletOffset: 0.7
+  _nextMeleeAttackTime: 0
+  _attackMeleeCooldown: 2
+  _hitRadius: 2
+  _nextRangedAttackTime: 0
+  _attackRangedCooldown: 3
+  _firingPoint: {fileID: 277044492}
 --- !u!61 &1019271676
 BoxCollider2D:
   m_ObjectHideFlags: 0

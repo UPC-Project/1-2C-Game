@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _input = _playerInput.actions["Move"].ReadValue<Vector2>();
         _input = _input.normalized;
+
         // Firing point control
         if (_input != Vector2.zero)
         {

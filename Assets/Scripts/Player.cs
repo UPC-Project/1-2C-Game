@@ -2,35 +2,48 @@ using UnityEngine;
 
 public class Player : HealthSystem
 {
-    [SerializeField] private GameObject _firingPoint;
-    [SerializeField] private float _hitRadius;
+    // For now is the same damage if is it ranged or melee, see preferences.
     [SerializeField] private float _attackDamage;
 
-    [SerializeField] private float _nextAttackTime;
-    [SerializeField] private float _attackCooldown;
+    [Header("Melee Attack")]
+    [SerializeField] private float _nextMeleeAttackTime;
+    [SerializeField] private float _attackMeleeCooldown;
+    [SerializeField] private float _hitRadius;
 
-    [SerializeField] private float _bulletOffset = 0.5f;
+    [Header("Ranged Attack")]
+    [SerializeField] private float _nextRangedAttackTime;
+    [SerializeField] private float _attackRangedCooldown;
+    [SerializeField] private GameObject _firingPoint;
+
 
     private void Update()
     {
-        if (_nextAttackTime > 0)
+        if (_nextMeleeAttackTime > 0)
         {
-            _nextAttackTime -= Time.deltaTime;
+            _nextMeleeAttackTime -= Time.deltaTime;
+        }
+        if (_nextRangedAttackTime > 0)
+        {
+            _nextRangedAttackTime -= Time.deltaTime;
         }
     }
 
     public void OnAttack()
     {
-        if (_nextAttackTime <= 0)
+        if (_nextMeleeAttackTime <= 0)
         {
             Attack();
-            _nextAttackTime = _attackCooldown;
+            _nextMeleeAttackTime = _attackMeleeCooldown;
         }
     }
 
     public void OnRangedAttack()
     {
-        RangedAttack();
+        if (_nextRangedAttackTime <= 0)
+        {
+            RangedAttack();
+            _nextRangedAttackTime = _attackRangedCooldown;
+        }
     }
     private void Attack()
     {
@@ -46,11 +59,7 @@ public class Player : HealthSystem
 
     private void RangedAttack()
     {
-        if (_nextAttackTime <= 0)
-        {
-            GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
-            _nextAttackTime = _attackCooldown;
-        }
+        GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
     }
 
     public override void Death()
