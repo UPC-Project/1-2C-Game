@@ -39,10 +39,8 @@ public class Bullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<Player>().TakeDamage(_damage);
         }
-        if (!collision.gameObject.CompareTag("Bullet"))
-        {
-            gameObject.SetActive(false);
-        }
+
+        gameObject.SetActive(false);
     }
 
 
