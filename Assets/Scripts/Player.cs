@@ -1,96 +1,75 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
 
-
-public class Player : MonoBehaviour
+public class Player : HealthSystem
 {
+    [SerializeField] private float _meleeAttackDamage;
 
-    //[SerializeField] private GameObject _shotPrefab;
-    [SerializeField] private Transform _attackController;
+    [Header("Melee Attack")]
+    [SerializeField] private float _nextMeleeAttackTime;
+    [SerializeField] private float _attackMeleeCooldown;
+    [SerializeField] private float _hitRadius;
 
-    public float health;
+    [Header("Ranged Attack")]
+    [SerializeField] private float _nextRangedAttackTime;
+    [SerializeField] private float _attackRangedCooldown;
+    [SerializeField] private GameObject _firingPoint;
 
-    [SerializeField] private float  _hitRadius;
-    [SerializeField] private float _attackDamage;
-
-    [SerializeField] private float _nexAttacKTime;
-    [SerializeField] private float _attackCooldown;
-
-
-    [SerializeField] private float _bulletOffset = 0.5f;
 
     private void Update()
     {
-        if (_nexAttacKTime > 0)
+        if (_nextMeleeAttackTime > 0)
         {
-            _nexAttacKTime -= Time.deltaTime;
-             
+            _nextMeleeAttackTime -= Time.deltaTime;
+        }
+        if (_nextRangedAttackTime > 0)
+        {
+            _nextRangedAttackTime -= Time.deltaTime;
         }
     }
 
     public void OnAttack()
     {
-        if (_nexAttacKTime <= 0)
+        if (_nextMeleeAttackTime <= 0)
         {
             Attack();
-            _nexAttacKTime = _attackCooldown;
+            _nextMeleeAttackTime = _attackMeleeCooldown;
         }
-        Debug.Log("Input Attack");
     }
 
     public void OnRangedAttack()
     {
-        Debug.Log("Input Attack2");
-        RangedAttack();
-
+        if (_nextRangedAttackTime <= 0)
+        {
+            RangedAttack();
+            _nextRangedAttackTime = _attackRangedCooldown;
+        }
     }
     private void Attack()
     {
-        //animator.SetTrigger("");     Animacison correspondiente 
-        Collider2D[] objects = Physics2D.OverlapCircleAll(_attackController.position, _hitRadius);
+        Collider2D[] objects = Physics2D.OverlapCircleAll(gameObject.transform.position, _hitRadius);
         foreach (Collider2D collider in objects)
         {
             if (collider.CompareTag("Enemy"))
             {
-                collider.transform.GetComponent<Enemy>().TakeDamage(_attackDamage);
-                //Llamar al meto "Recibir daño" correspondiente
+                collider.transform.GetComponent<Enemy>().TakeDamage(_meleeAttackDamage);
             }
         }
     }
 
     private void RangedAttack()
     {
-        if (_nexAttacKTime <= 0)
-        {
-            GameObject bullet = BulletPool.Instance.RequestBullet();
-            bullet.transform.position = transform.position + Vector3.up * _bulletOffset;
-            _nexAttacKTime = _attackCooldown;
-
-        }
+        // The bullet damage is in the Bullet script
+        GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
     }
 
-    public void TakeDamage(float damage)
+    public override void Death()
     {
-        health -= damage;
-
-        if (health <= 0)
-        {
-            Death();
-        }
+        Debug.Log("You died");
     }
 
-    public void Death()
-    {
-        Debug.Log("haz muerto");
-        
-    }
-    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_attackController.position, _hitRadius);
+        Gizmos.DrawWireSphere(gameObject.transform.position, _hitRadius);
     }
-
-
-
 }
