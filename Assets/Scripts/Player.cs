@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Player : HealthSystem
 {
-    // For now is the same damage if is it ranged or melee, see preferences.
-    [SerializeField] private float _attackDamage;
+    [SerializeField] private float _meleeAttackDamage;
 
     [Header("Melee Attack")]
     [SerializeField] private float _nextMeleeAttackTime;
@@ -52,13 +51,14 @@ public class Player : HealthSystem
         {
             if (collider.CompareTag("Enemy"))
             {
-                collider.transform.GetComponent<Enemy>().TakeDamage(_attackDamage);
+                collider.transform.GetComponent<Enemy>().TakeDamage(_meleeAttackDamage);
             }
         }
     }
 
     private void RangedAttack()
     {
+        // The bullet damage is in the Bullet script
         GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
     }
 

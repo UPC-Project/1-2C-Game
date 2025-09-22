@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class MeleeEnemy : Enemy
 {
-    [SerializeField] private Transform _attackController;
     [SerializeField] private float _hitRadius;
 
     protected override void Attack()
     {
-        Collider2D[] objects = Physics2D.OverlapCircleAll(_attackController.position, _hitRadius);
+        Collider2D[] objects = Physics2D.OverlapCircleAll(gameObject.transform.position, _hitRadius);
         foreach (Collider2D collider in objects)
         {
             if (collider.CompareTag("Player"))
@@ -17,9 +16,10 @@ public class MeleeEnemy : Enemy
         }
     }
 
-    private void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_attackController.position, _hitRadius);
+        Gizmos.DrawWireSphere(gameObject.transform.position, _hitRadius);
     }
 }

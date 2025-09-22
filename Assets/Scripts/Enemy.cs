@@ -4,6 +4,8 @@ public abstract class Enemy : HealthSystem
 {
     private Rigidbody2D _rb;
     public Transform target;
+    [SerializeField] private float _aggroRadius;
+    private bool onAggro = false;
 
     [Header("Movement")]
     public float speed;
@@ -19,6 +21,7 @@ public abstract class Enemy : HealthSystem
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         _rb = GetComponent<Rigidbody2D>();
+        onAggro = false;
     }
 
     private void Update()
@@ -28,25 +31,35 @@ public abstract class Enemy : HealthSystem
 
     protected virtual void OnUpdate()
     {
-        if (target)
+        if (target && onAggro)
         {
             RotateTowardsTarget();
-        }
 
-        if (_nextAttackTime > 0)
+            if (_nextAttackTime > 0)
+            {
+                _nextAttackTime -= Time.deltaTime;
+            }
+            else
+            {
+                Attack();
+                _nextAttackTime = _attackCooldown;
+            }
+        } else
         {
-            _nextAttackTime -= Time.deltaTime;
-        }
-        else
-        {
-            Attack();
-            _nextAttackTime = _attackCooldown;
+            Collider2D[] objects = Physics2D.OverlapCircleAll(gameObject.transform.position, _aggroRadius);
+            foreach (Collider2D collider in objects)
+            {
+                if (collider.CompareTag("Player"))
+                {
+                    onAggro = true;
+                }
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if (Vector2.Distance(target.position, transform.position) >= distanceToStop)
+        if (Vector2.Distance(target.position, transform.position) >= distanceToStop && onAggro)
         {
             _rb.linearVelocity = transform.up * speed;
         }
@@ -66,4 +79,10 @@ public abstract class Enemy : HealthSystem
     }
 
     protected abstract void Attack();
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(gameObject.transform.position, _aggroRadius);
+    }
 }
