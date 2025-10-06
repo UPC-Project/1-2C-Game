@@ -7396,11 +7396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67422bca665744d4eaa5c3e32d5a4099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  _playerInput: {fileID: 1019271673}
   _shotPrefab: {fileID: 7560886125661003044, guid: d6dee7a2061606b4298bf8a6322acd81, type: 3}
   _attackController: {fileID: 1471397464}
-  _animator: {fileID: 1019271677}
-  _shotPoint: {fileID: 1676133077}
+  _animator: {fileID: 0}
+  _shotPoint: {fileID: 0}
   health: 10
   _hitRadius: 2
   _attackDamage: 5
@@ -7441,7 +7440,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.006740749, y: 0.033704102}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -7451,7 +7450,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.29221565, y: 0.7303679}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &1019271677
 Animator:
@@ -10640,7 +10639,7 @@ Transform:
   m_GameObject: {fileID: 1676133076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.503, y: 0.06, z: 0}
+  m_LocalPosition: {x: -0.135, y: 0.548, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private float _lifeTime = 0.2f; 
     private float _lifeTimer;
+    private float direction = 1f;
 
 
     private void OnEnable()
@@ -39,6 +40,11 @@ public class Bullet : MonoBehaviour
             gameObject.SetActive(false);
         }
 
+    }
+
+    public void SetDirection(float dir)
+    {
+        direction = dir;
     }
 
 

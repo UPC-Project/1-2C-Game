@@ -36,7 +36,12 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetFloat("Speed", 0);
         }
 
-        Debug.Log(_input);
+        //if (_playerInput.actions["Attack"].triggered) _animator.SetBool("isAttacking2", true);
+        //else _animator.SetBool("isAttacking2", false);
+
+        //if (_playerInput.actions["RangedAttack"].triggered) _animator.SetBool("isAttacking", true);
+        //else _animator.SetBool("isAttacking", false);
+
 
 
     }
