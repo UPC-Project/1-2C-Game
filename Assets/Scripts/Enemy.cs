@@ -13,7 +13,7 @@ public abstract class Enemy : HealthSystem
     public float distanceToStop = 5f;
 
     [Header("Attack")]
-    [SerializeField] protected float _damage;
+    [SerializeField] protected int _damage;
     [SerializeField] protected float _nextAttackTime;
     [SerializeField] protected float _attackCooldown;
 
