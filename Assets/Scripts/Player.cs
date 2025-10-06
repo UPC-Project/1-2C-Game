@@ -13,7 +13,7 @@ public class Player : HealthSystem
     [Header("Ranged Attack")]
     [SerializeField] private float _nextRangedAttackTime;
     [SerializeField] private float _attackRangedCooldown;
-    [SerializeField] private GameObject _firingPoint;
+    [SerializeField] private GameObject _facingPoint;
 
 
     private void Update()
@@ -64,7 +64,7 @@ public class Player : HealthSystem
     private void RangedAttack()
     {
         // The bullet damage is in the Bullet script
-        GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
+        GameObject bullet = BulletPool.Instance.RequestBullet(_facingPoint.transform.position, _facingPoint.transform.rotation);
     }
 
     public override void Death()

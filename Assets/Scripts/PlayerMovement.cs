@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput _playerInput;
     private Vector2 _input;
 
-    [SerializeField] private GameObject _firingPoint;
+    [SerializeField] private GameObject _facingPoint;
+    private float distanceFromPlayer = 1f;
 
     private void Start()
     {
@@ -19,19 +20,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Movement
         _input = _playerInput.actions["Move"].ReadValue<Vector2>();
         _input = _input.normalized;
 
-        // Firing point control
-        if (_input != Vector2.zero)
-        {
-            float distanceFromPlayer = 0.7f;
-            if (_input.x != 0f && _input.y != 0f) distanceFromPlayer = 1f;
-            float angle = Mathf.Atan2(_input.y, _input.x) * Mathf.Rad2Deg - 90f;
-            Quaternion rot = Quaternion.Euler(0f, 0f, angle);
-            _firingPoint.transform.localRotation = rot;
-            _firingPoint.transform.localPosition = new Vector3(_input.x, _input.y, 0f) * distanceFromPlayer;
-        }
+        // Aiming with mouse
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = mousePos - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Debug.Log(angle);
+        Quaternion rot = Quaternion.Euler(0f, 0f, angle - 90f);
+        _facingPoint.transform.localRotation = rot;
+        _facingPoint.transform.localPosition = Quaternion.Euler(0, 0, angle) * new Vector3(distanceFromPlayer,0,0);
     }
 
     private void FixedUpdate()
