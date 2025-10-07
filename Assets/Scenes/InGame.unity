@@ -2467,8 +2467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b46739882cf886479019f8ae16b054d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealingPotion
-  _collected: 0
-  player: {fileID: 1019271675}
 --- !u!1 &406758926
 GameObject:
   m_ObjectHideFlags: 0
@@ -4247,7 +4245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 536153101}
   m_Layer: 0
-  m_Name: Firing Point
+  m_Name: Facing Point
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -7766,7 +7764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   movementForce: 7
   _rb: {fileID: 1019271674}
-  _firingPoint: {fileID: 536153100}
+  _facingPoint: {fileID: 536153100}
 --- !u!212 &1019271671
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8024,7 +8022,7 @@ MonoBehaviour:
   _hitRadius: 2
   _nextRangedAttackTime: 0
   _attackRangedCooldown: 0.5
-  _firingPoint: {fileID: 536153100}
+  _facingPoint: {fileID: 536153100}
 --- !u!61 &1019271676
 BoxCollider2D:
   m_ObjectHideFlags: 0
