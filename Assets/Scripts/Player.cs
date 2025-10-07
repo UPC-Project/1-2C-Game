@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Player : HealthSystem
 {
-    [SerializeField] private float _meleeAttackDamage;
+    public int healingPotions = 0;
 
     [Header("Melee Attack")]
+    [SerializeField] private int _meleeAttackDamage = 1;
     [SerializeField] private float _nextMeleeAttackTime;
     [SerializeField] private float _attackMeleeCooldown;
     [SerializeField] private float _hitRadius;
@@ -12,7 +13,7 @@ public class Player : HealthSystem
     [Header("Ranged Attack")]
     [SerializeField] private float _nextRangedAttackTime;
     [SerializeField] private float _attackRangedCooldown;
-    [SerializeField] private GameObject _firingPoint;
+    [SerializeField] private GameObject _facingPoint;
 
 
     //CheckPoint System 
@@ -38,16 +39,19 @@ public class Player : HealthSystem
         }
     }
 
-    public void OnAttack()
+    // ATTACK SYSTEM
+    // Triggered when Z key is pressed
+    public void OnMeleeAttack()
     {
         if (_nextMeleeAttackTime <= 0)
         {
-            Attack();
+            MeleeAttack();
             _nextMeleeAttackTime = _attackMeleeCooldown;
         }
         Debug.Log("Melee Attack");
     }
 
+    // Triggered when X key is pressed
     public void OnRangedAttack()
     {
         if (_nextRangedAttackTime <= 0)
@@ -58,7 +62,8 @@ public class Player : HealthSystem
         Debug.Log("Ranged Attack");
 
     }
-    private void Attack()
+
+    private void MeleeAttack()
     {
         Collider2D[] objects = Physics2D.OverlapCircleAll(gameObject.transform.position, _hitRadius);
         foreach (Collider2D collider in objects)
@@ -73,7 +78,7 @@ public class Player : HealthSystem
     private void RangedAttack()
     {
         // The bullet damage is in the Bullet script
-        GameObject bullet = BulletPool.Instance.RequestBullet(_firingPoint.transform.position, _firingPoint.transform.rotation);
+        GameObject bullet = BulletPool.Instance.RequestBullet(_facingPoint.transform.position, _facingPoint.transform.rotation);
     }
 
     public override void Death()
@@ -81,6 +86,8 @@ public class Player : HealthSystem
         Debug.Log("You died");
     }
 
+
+    // Comment this function if you don't want to see the melee range attack
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -95,6 +102,26 @@ public class Player : HealthSystem
     public void Respawn()
     {
         transform.position = _respawnPoint;
+    }
+    
+    // HEAL SYSTEM
+    // Triggered when H key is pressed
+    public void OnHeal()
+    {
+        if (healingPotions > 0)
+        {
+            health = maxHealth;
+            healingPotions -= 1;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HealingPotion"))
+        {
+            healingPotions += 1;
+            Destroy(collision.gameObject);
+        }
     }
 
 }

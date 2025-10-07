@@ -2,9 +2,16 @@ using UnityEngine;
 
 public abstract class HealthSystem : MonoBehaviour
 {
-    public float health;
+    [Header("Health")]
+    public int health;
+    public int maxHealth = 5;
 
-    public void TakeDamage(float damage)
+    public void Awake()
+    {
+        health = maxHealth;
+    }
+
+    public void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
