@@ -15,6 +15,17 @@ public class Player : HealthSystem
     [SerializeField] private GameObject _firingPoint;
 
 
+    //CheckPoint System 
+    private Vector2 _respawnPoint;
+
+    void Start()
+    {
+
+
+
+        _respawnPoint = transform.position;
+    }
+
     private void Update()
     {
         if (_nextMeleeAttackTime > 0)
@@ -34,6 +45,7 @@ public class Player : HealthSystem
             Attack();
             _nextMeleeAttackTime = _attackMeleeCooldown;
         }
+        Debug.Log("Melee Attack");
     }
 
     public void OnRangedAttack()
@@ -43,6 +55,8 @@ public class Player : HealthSystem
             RangedAttack();
             _nextRangedAttackTime = _attackRangedCooldown;
         }
+        Debug.Log("Ranged Attack");
+
     }
     private void Attack()
     {
@@ -72,4 +86,15 @@ public class Player : HealthSystem
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gameObject.transform.position, _hitRadius);
     }
+
+    public void SetCheckpoint(Vector2 newPosition)
+    {
+        _respawnPoint = newPosition;
+    }
+
+    public void Respawn()
+    {
+        transform.position = _respawnPoint;
+    }
+
 }

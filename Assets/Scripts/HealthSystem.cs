@@ -7,7 +7,11 @@ public abstract class HealthSystem : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-        if (health <= 0) Death();
+        if (health <= 0)
+        {
+            Death();
+            GetComponent<Player>().Respawn();
+        }
     }
 
     // if necessary, override this method.
